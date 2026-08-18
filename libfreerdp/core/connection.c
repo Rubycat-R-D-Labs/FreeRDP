@@ -1308,7 +1308,8 @@ state_run_t rdp_client_connect_license(rdpRdp* rdp, wStream* s)
 			WLog_ERR(TAG, "license connection sequence aborted.");
 			return STATE_RUN_FAILED;
 		case LICENSE_STATE_COMPLETED:
-			if (rdp->settings->MultitransportFlags)
+			if (freerdp_settings_get_bool(rdp->settings, FreeRDP_SupportMultitransport) &&
+			    freerdp_settings_get_uint32(rdp->settings, FreeRDP_MultitransportFlags))
 			{
 				if (!rdp_client_transition_to_state(
 				        rdp, CONNECTION_STATE_MULTITRANSPORT_BOOTSTRAPPING_REQUEST))
